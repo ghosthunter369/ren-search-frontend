@@ -24,6 +24,7 @@
 <script setup lang="ts">
 import PostList from "@/components/PostList.vue";
 import UserList from "@/components/UserList.vue";
+import PictureList from "@/components/PictureList.vue";
 import { useRoute, useRouter } from "vue-router";
 import { ref, watchEffect } from "vue";
 import myAxios from "@/plugins/myAxios";
@@ -40,7 +41,7 @@ const searchParams = ref({
 });
 const postList = ref([]);
 const userList = ref([]);
-const pictureList = ref([]);
+const pictureList = ref([]); // 使用 markRaw 标记为非响应式对象
 
 myAxios.post("/post/list/page/vo", {}).then(function (res: any) {
   postList.value = res.records || []; // 确保有数据
@@ -50,7 +51,6 @@ myAxios.post("/user/list/page/vo", {}).then(function (res: any) {
 });
 myAxios.post("picture/list/page/vo", {}).then((res: any) => {
   pictureList.value = res.records || [];
-  console.log(res.records);
 });
 watchEffect(() => {
   Object.assign(searchParams.value, {

@@ -2,7 +2,7 @@
   <a-list
     item-layout="horizontal"
     :grid="{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }"
-    :data-source="[...props.pictureList]"
+    :data-source="props.pictureList"
   >
     <template #renderItem="{ item }">
       <a-list-item>
@@ -18,17 +18,15 @@
 </template>
 
 <script setup lang="ts">
-import { watch, defineProps } from "vue";
+import { withDefaults, defineProps } from "vue";
 
-const props = defineProps({
-  pictureList: Array,
+interface Props {
+  pictureList: any[];
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  pictureList: () => [],
 });
-
-watch(
-  () => props.pictureList,
-  (newVal) => {
-    console.log("子组件收到的新 pictureList 数据:", newVal);
-  },
-  { deep: true, immediate: true } // 立刻执行一次，确保能看到初始值
-);
 </script>
+
+<style scoped></style>
